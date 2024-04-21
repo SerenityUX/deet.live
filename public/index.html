@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deet Live</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+  body {
+    margin: 8;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+</style>
+</head>
+<body>
+<p>Hi I'm Deet!</p>
+<p>I livestream with my VR headset on every weekend.</p>
+
+  <div style="width: 300px; aspect-ratio: 16/9; position: relative">
+  <video style="width: 300px; aspect-ratio: 16/9; border: #000 1px solid; display: inline" id="video" autoplay></video>
+  <div style="position: absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
+    <p style="margin: 0">Stream Offline</p>
+
+  </div>
+</div>
+<div>
+<button disabled>blur my vision</button>
+<button disabled>jumpscare me</button>
+<button disabled>shock me</button>
+
+</div>
+<p>
+  This was last week's stream:
+</p>
+
+
+<div style="width: 300px; aspect-ratio: 16/9; position: relative">
+  <video src="https://cloud-qmpoih2n3-hack-club-bot.vercel.app/0testvideo.mp4" style="width: 300px; aspect-ratio: 16/9; border: #000 1px solid; display: inline" controls></video>
+</div>
+
+<p>Stream not working? email thomas:
+  <a href="mailto:thomas@serenidad.app">thomas@serenidad.app</a>
+</p>
+<script>
+  var video = document.getElementById('video');
+  
+  // This function attempts to play the video and retries if it fails.
+  function attemptPlay() {
+    video.play().catch(() => {
+      setTimeout(attemptPlay, 1000); // Retry after 1 second if initial play fails
+    });
+  }
+
+  if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource('https://3b0e7ead606c.entrypoint.cloud.wowza.com/app-6Kf89806/ngrp:398ee5f6_all/playlist.m3u8');
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      attemptPlay();
+    });
+  }
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'https://3b0e7ead606c.entrypoint.cloud.wowza.com/app-6Kf89806/ngrp:398ee5f6_all/playlist.m3u8';
+    video.addEventListener('loadedmetadata', attemptPlay);
+  }
+
+  // Listen for the 'ended' event and play the video again if it reaches the end.
+  video.addEventListener('ended', () => {
+    video.play();
+  });
+</script>
+
+</body>
+</html>
