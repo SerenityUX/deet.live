@@ -29,6 +29,17 @@ app.get('/rss', async (req, res) => {
     }
 });
 
+app.get('/sendMessage', async (req, res) => {
+    try {
+        const response = await fetch('https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/');
+        const data = await response.text();
+        res.send({response: data});
+    } catch (error) {
+        res.status(500).send('Error fetching data from the external service');
+    }
+});
+
+
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
