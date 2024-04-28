@@ -320,6 +320,17 @@ async function fetchMessages() {
 // Set up an interval to fetch messages every second
 setInterval(fetchMessages, 1000);
 
+
+function adjustHeight() {
+  const viewportHeight = window.innerHeight + "px";
+  document.body.style.height = viewportHeight;
+  document.getElementById("popup").style.height = viewportHeight;
+}
+
+// Run on load and on window resize
+window.addEventListener('load', adjustHeight);
+window.addEventListener('resize', adjustHeight);
+
 </script>
 
 </body>
