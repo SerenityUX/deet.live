@@ -42,12 +42,50 @@ app.get('/sendInteraction', async (req, res) => {
 
 app.get('/sendMessage', async (req, res) => {
     try {
+        const token = req.query.token; // Retrieve the message from the query string
+
         const message = req.query.message; // Retrieve the message from the query string
         console.log('Received message:', message);
 
-        const response = await fetch(`https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/newMessage?message=${encodeURIComponent(message)}`);
+        console.log('Received token:', token);
+
+        const response = await fetch(`https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/newMessage?message=${encodeURIComponent(message)}&token=${encodeURIComponent(token)}`);
         const data = await response.text();
         res.send({response: data});
+    } catch (error) {
+        console.error('Error in /sendMessage:', error);
+        res.status(500).send('Error fetching data from the external service');
+    }
+});
+
+app.get('/login', async (req, res) => {
+    try {
+        const phone = req.query.phone; // Retrieve the message from the query string
+        const password = req.query.password; // Retrieve the message from the query string
+
+        console.log('Received phone:', phone);
+
+        const response = await fetch(`https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/login?phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}`);
+        const data = await response.json();
+        res.send(data);
+    } catch (error) {
+        console.error('Error in /sendMessage:', error);
+        res.status(500).send('Error fetching data from the external service');
+    }
+});
+
+app.get('/signup', async (req, res) => {
+    try {
+
+        const username = req.query.username;
+        const phone = req.query.phone; // Retrieve the message from the query string
+        const password = req.query.password; // Retrieve the message from the query string
+
+        console.log('Received phone:', phone);
+
+        const response = await fetch(`https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/newUser?username=${encodeURIComponent(username)}&phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}`);
+        const data = await response.json();
+        res.send(data);
     } catch (error) {
         console.error('Error in /sendMessage:', error);
         res.status(500).send('Error fetching data from the external service');

@@ -15,11 +15,37 @@
 </style>
 </head>
 <body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0px">
-<div style="margin: 0; width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+  <div id="popup" style="position: absolute; display: none; background-color: rgba(0, 0, 0, 0.5); width: 100vw; height: 100vh;">
+    <div onclick='closePopup()' style="width: 100vw; height: 100vh; display: flex;">
+      
+    </div>
+    <div style="position: absolute; left: calc(50% - 100px); top: calc(50% - 100px); width: 200px; height: 200px; background-color: #fff; border: 1px solid #000">
+    
+    <div style="display: flex; flex-direction: row; justify-content: space-around;">
+    <p id="loginText" onclick="setLogin()" style="text-decoration: underline;">Login</p>
+    <p id="signupText" onclick="setSignup()">Signup</p>
+  
+  </div>
+  
+   <div id="usernameGroup" style="display: none; margin: 0; padding: 0">
+  <label>Username</label>
+  <input id="usernameInput"/>
+</div>
+  <label>Phone #</label>
+  <input id="phoneInput"/>
+  
+  <label>Password</label>
+  <input id="passwordInput"/>
+  <button onclick="signup()" style="display: none" id="signupButton">Signup</button>
+
+  <button onclick="login()" style="display: block" id="loginButton">Login</button>
+  </div>
+</div>
+  <div style="margin: 0; width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
   <p style="margin: 0; width: 100%;">Serenidad</p>
   <div style="display: flex; justify-content: space-between; width: 100%; flex-direction: row;">
     <a href="https://twitter.com/BldgSerenidad"><p style="margin: 0">Explore Streams</p></a>
-    <a href="https://twitter.com/BldgSerenidad"><p style="margin: 0">Sign In</p></a>
+    <p onclick="openPopup()" style="margin: 0">Sign In</p>
   </div>
 </div>
 
@@ -101,6 +127,75 @@
   video.addEventListener('ended', () => {
     video.play();
   });
+  function openPopup() {
+    document.getElementById("popup").style.display = "flex"
+
+  }
+  function closePopup() {
+    document.getElementById("popup").style.display = "none"
+
+  }
+
+  async function login() {
+    var phone = encodeURIComponent(document.getElementById("phoneInput").value);
+    var password = encodeURIComponent(document.getElementById("passwordInput").value);
+
+    console.log(phone, password);
+    const response = await fetch(`/login?phone=${phone}&password=${password}`, {
+        method: 'GET'
+    });
+    const data = await response.json();
+    console.log(data);
+
+    // Check if the response contains a token and save it as a cookie
+    if (data.token) {
+        document.cookie = `token=${data.token}; path=/;`;  // Adjust the cookie attributes as needed
+        closePopup()
+      }
+}
+
+
+  async function signup() {
+
+    var username = encodeURIComponent(document.getElementById("usernameInput").value)
+    var phone = encodeURIComponent(document.getElementById("phoneInput").value)
+    var password = encodeURIComponent(document.getElementById("passwordInput").value)
+
+    console.log(username, phone, password)
+    const response = await fetch(`/signup?username=${username}&phone=${phone}&password=${password}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        console.log(data);
+
+            // Check if the response contains a token and save it as a cookie
+    if (data.token) {
+        document.cookie = `token=${data.token}; path=/;`;  // Adjust the cookie attributes as needed
+        closePopup()
+      }
+  }
+  function setSignup() {
+    document.getElementById("signupText").style.textDecoration = "underline"
+    document.getElementById("loginText").style.textDecoration = "none"
+
+    document.getElementById("signupButton").style.display = "block"
+    document.getElementById("loginButton").style.display = "none"
+
+    document.getElementById("usernameGroup").style.display = "block"
+
+
+  }
+
+  function setLogin() {
+    document.getElementById("loginText").style.textDecoration = "underline"
+    document.getElementById("signupText").style.textDecoration = "none"
+
+    document.getElementById("loginButton").style.display = "block"
+    document.getElementById("signupButton").style.display = "none"
+
+    document.getElementById("usernameGroup").style.display = "none"
+
+  }
 
   async function fetchData() {
     try {
@@ -114,21 +209,34 @@
 
   async function sendMessage() {
     try {
-        const message = document.getElementById("messageInput").value; // Example message
 
+
+        const message = document.getElementById("messageInput").value; // Example message
+        const tokenCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
         
+        let token = '';
+        if (tokenCookie) {
+            token = tokenCookie.split('=')[1]; // Extract just the token value
+        }
+
+        if(token == "") {
+          openPopup()
+        }
+        
+        console.log(token);
 
         const encodedMessage = encodeURIComponent(message); // Encode the message to ensure it is URL-safe
-        const response = await fetch(`/sendMessage?message=${encodedMessage}`, {
+        const response = await fetch(`/sendMessage?message=${encodedMessage}&token=${token}`, {
             method: 'GET'
         });
         const data = await response.json();
         console.log(data);
-        document.getElementById("messageInput").value = ""
+        document.getElementById("messageInput").value = "";
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 }
+
 
 
 
@@ -146,8 +254,18 @@
         const messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML = ''; // Clear previous messages
         data.forEach(msg => {
+
+          const title = document.createElement('p');
+          title.textContent = msg.sender;
+          title.style.fontWeight = 600
+          title.style.margin = 0
+
+          messagesDiv.appendChild(title);
+
           const p = document.createElement('p');
           p.textContent = msg.message;
+          p.style.margin = 0
+
           messagesDiv.appendChild(p);
         });
       }
