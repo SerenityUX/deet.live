@@ -322,14 +322,25 @@ setInterval(fetchMessages, 1000);
 
 
 function adjustHeight() {
-  const viewportHeight = window.innerHeight + "px";
-  document.body.style.height = viewportHeight;
-  document.getElementById("popup").style.height = viewportHeight;
+  const cssHeight = `calc(100vh - ${window.getComputedStyle(document.documentElement).getPropertyValue('--safe-area-inset-bottom')})`;
+  document.body.style.height = cssHeight;
+  document.getElementById("popup").style.height = cssHeight;
 }
 
-// Run on load and on window resize
-window.addEventListener('load', adjustHeight);
-window.addEventListener('resize', adjustHeight);
+// Update the CSS variable in JavaScript
+function updateSafeAreaInsets() {
+  const safeAreaInsetBottom = window.getComputedStyle(document.body).getPropertyValue('padding-bottom');
+  document.documentElement.style.setProperty('--safe-area-inset-bottom', safeAreaInsetBottom);
+}
+
+window.addEventListener('load', function() {
+  updateSafeAreaInsets();
+  adjustHeight();
+});
+window.addEventListener('resize', function() {
+  updateSafeAreaInsets();
+  adjustHeight();
+});
 
 </script>
 
