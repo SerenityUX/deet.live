@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Deet Live</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
   body {
-    margin: 8;
+    margin: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-image: url("coolBackground.png");
+    background-size: cover;
+    color: #fff;
   }
 </style>
 </head>
@@ -41,46 +47,76 @@
   <button onclick="login()" style="display: block" id="loginButton">Login</button>
   </div>
 </div>
-  <div style="margin: 0; width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-  <p style="margin: 0; width: 100%;">Serenidad</p>
-  <div style="display: flex; justify-content: space-between; width: 100%; flex-direction: row;">
-    <a href="https://twitter.com/BldgSerenidad"><p style="margin: 0">Explore Streams</p></a>
-    <p onclick="openPopup()" style="margin: 0">Sign In</p>
+  <div style="margin: 0; padding: 8px; align-items: center; display: flex; flex-direction: row; justify-content: space-between;">
+  <p style="margin: 0; font-size: 24px; font-weight: 400">Serenidad</p>
+  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-direction: row;">
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <a style="color: #fff; text-decoration: none;" href="https://twitter.com/BldgSerenidad"><p style="margin: 0">Explore Streams</p></a>
+    <p onclick="openPopup()" style="margin: 0; padding: 4px 16px; background-color: rgba(255, 255, 255, 0.1); border-radius: 16px; overflow: hidden;">Sign In</p>
   </div>
 </div>
 
   <div style="width: calc(100%); aspect-ratio: 16/9; position: relative">
-  <video style="width: calc(100%); aspect-ratio: 16/9; border-bottom: #000 1px solid; border-top: #000 1px solid; display: inline" id="video" autoplay></video>
-  <div style="position: absolute; display: flex; width: calc(100% - 2px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
+  <video style="width: calc(100% - 18px); border-radius: 8px; backdrop-filter: blur(4px); background-color: rgba(255, 255, 255, 0.1); margin-left: 8px; margin-right: 8px; aspect-ratio: 16/9; border: rgba(255, 255, 255, 0.25) 2px solid; display: inline" id="video" autoplay></video>
+  <div style="position: absolute; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
     <p style="margin: 0">Stream Offline</p>
 
   </div>
 </div>
 
-<p style="margin: 0; font-size: 44px">Deet Live Exploring South Carolina</p>
+<p style="margin-top: 0; margin-bottom: 0; margin-left: 8px; margin-right: 8px; font-size: 38px; font-family: Fraunces; font-weight: 600">Deet Live Exploring South Carolina</p>
 
-<div>
-  <p style="margin-top: 8; margin-bottom: 8">Deet is live</p>
+<div style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; margin-left: 16px; margin-right: 16px">
+  <div style="gap: 8px; display: flex; flex-direction: row; align-items: center;">
+  <img src="deetImage.png" style="width: 32px; height: 32px; border-radius: 16px;"/>
+  <p style="margin-top: 8; margin-bottom: 8">Deet.live</p>
+</div>
+  <a href="https://twitter.com/DeetSchoe"><img src="TwitterIcon.png" style="width: 32px; height: 32px; border-radius: 16px;"/></a>
+
 </div>
 
-<p style="margin-top: 0">Interactions:</p>
-<div>
-<button onclick="fetchData()">surfers</button>
+<div style="margin-left: 8px; border-radius: 8px; margin-right: 8px; background-color: rgba(255, 255, 255, 0.25); border: 2px solid rgba(255, 255, 255, 0.25); backdrop-filter: blur(4px);">
+<div style="background-color: rgba(255, 255, 255, 0.9); width: calc(100% - 20px); border-radius: 6px 6px 0px 0px; margin: 2px; padding: 8px;">
+  <p style="margin-top: 0; color: #000; margin-bottom: 0; font-family: Fraunces; font-weight: 500;">Interactions:</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; margin-top: 8px; margin-bottom: 8px; flex-direction: row; width: calc(100% - 16px); margin-left: 8px; margin-right: 8px; gap: 8px;">
+  <img onclick="fetchData()" src="SerenidadSurfers.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+</div>
+
+
+<!-- <button onclick="fetchData()">surfers</button>
 <button disabled>blur my vision</button>
 <button disabled>jumpscare me</button>
-<button disabled>shock me</button>
+<button disabled>shock me</button> -->
+
+
+</div>
+<div>
+<div style="margin-left: 8px; padding-top: 2px; margin-top: 8px; border-radius: 8px; margin-right: 8px; background-color: rgba(255, 255, 255, 0.25);">
+
+
+<div style="background-color: rgba(255, 255, 255, 0.75); margin: 4px; color: #000; border-radius: 6px 6px 0px 0px; height: 150px; scrollbar-width: none; overflow: scroll; padding: 8px;" id="messages">
 
 </div>
 
-<p style="margin-top: 8; margin-bottom: 8">Chat:</p>
-<div style="width: 100%; display: flex">
-<input id="messageInput" style="width: 100%"/>
-<button onclick="sendMessage()">Send</button>
+<div style="width: calc(100% - 8px); display: flex; margin-left: 4px; margin-right: 4px;">
+  <input placeholder="Send a message to Deet" id="messageInput" style="background-color: rgba(255, 255, 255, 0.9); outline: none; width: 100%; border: 0px; font-size: 16px; border-radius: 0px 0px 0px 6px; margin-bottom: 4px; padding: 8px;"/>
+  <img onclick="sendMessage()" style="width: 32px; cursor: pointer; height: 32px; padding-left: 8px; background-color: rgba(255, 255, 255, 0.9); height: 26.5px; display: flex; align-items: center; justify-content: center; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; border-radius: 0px 6px 6px 0px;" src="maxSend.png"/>
+  
+  <!-- <button onclick="sendMessage()">Send</button> -->
+  </div>
 </div>
 
-<div id="messages">
-
 </div>
+
 <!-- <p>
   This was last week's stream:
 </p> -->
@@ -242,41 +278,43 @@
 
 
 
-  // Function to fetch messages and update the div
-  var lastData = null; // Cache the last fetched data to avoid unnecessary updates
-  async function fetchMessages() {
-    try {
-      const response = await fetch('/getMessages');
-      const data = await response.json();
-      // Update the div only if there is new data
-      if (JSON.stringify(data) !== JSON.stringify(lastData)) {
-        lastData = data;
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML = ''; // Clear previous messages
-        data.forEach(msg => {
+// Function to fetch messages and update the div
+var lastData = null; // Cache the last fetched data to avoid unnecessary updates
+async function fetchMessages() {
+  try {
+    const response = await fetch('/getMessages');
+    const data = await response.json();
+    // Update the div only if there is new data
+    if (JSON.stringify(data).length !== JSON.stringify(lastData).length) {
+      lastData = data;
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = ''; // Clear previous messages
+      data.reverse();
+      data.forEach(msg => {
+        const title = document.createElement('p');
+        title.textContent = msg.sender;
+        title.style.fontWeight = 600;
+        title.style.margin = 0;
 
-          const title = document.createElement('p');
-          title.textContent = msg.sender;
-          title.style.fontWeight = 600
-          title.style.margin = 0
+        messagesDiv.appendChild(title);
 
-          messagesDiv.appendChild(title);
+        const p = document.createElement('p');
+        p.textContent = msg.message;
+        p.style.margin = 0;
 
-          const p = document.createElement('p');
-          p.textContent = msg.message;
-          p.style.margin = 0
-
-          messagesDiv.appendChild(p);
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching messages:', error);
+        messagesDiv.appendChild(p);
+      });
+      // Scroll to the bottom of the messages div after updating it
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
+  } catch (error) {
+    console.error('Error fetching messages:', error);
   }
+}
 
-  // Set up an interval to fetch messages every second
-  setInterval(fetchMessages, 1000);
-  
+// Set up an interval to fetch messages every second
+setInterval(fetchMessages, 1000);
+
 </script>
 
 </body>
