@@ -286,7 +286,7 @@
             method: 'GET'
         });
         const data = await response.json();
-        console.log(data);
+        alert(data.response);
         document.getElementById("messageInput").value = "";
       }
     } catch (error) {
