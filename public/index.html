@@ -63,9 +63,9 @@
 </div>
 
   <div style="width: calc(100%); aspect-ratio: 16/9; position: relative">
-  <video style="z-index: 2; position: absolute; width: calc(100% - 18px); border-radius: 8px; backdrop-filter: blur(4px); background-color: rgba(255, 255, 255, 0.1); margin-left: 8px; margin-right: 8px; aspect-ratio: 16/9; border: rgba(255, 255, 255, 0.25) 2px solid; display: inline" id="video" autoplay></video>
-  <div style="position: absolute; z-index: 3; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
-    <p style="margin: 0">Stream Offline</p>
+  <video style="z-index: 3; position: absolute; width: calc(100% - 18px); border-radius: 8px; backdrop-filter: blur(4px); background-color: rgba(255, 255, 255, 0.1); margin-left: 8px; margin-right: 8px; aspect-ratio: 16/9; border: rgba(255, 255, 255, 0.25) 2px solid; display: inline" id="video" autoplay></video>
+  <div style="position: absolute; z-index: 2; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
+    <!-- <p style="margin: 0">Stream Offline</p> -->
 
   </div>
 </div>
@@ -151,14 +151,14 @@
 
   if(Hls.isSupported()) {
     var hls = new Hls();
-    hls.loadSource('https://3b0e7ead606c.entrypoint.cloud.wowza.com/app-6Kf89806/ngrp:398ee5f6_all/playlist.m3u8');
+    hls.loadSource('http://23.92.25.196/hls/test.m3u8');
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, function() {
       attemptPlay();
     });
   }
   else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = 'https://3b0e7ead606c.entrypoint.cloud.wowza.com/app-6Kf89806/ngrp:398ee5f6_all/playlist.m3u8';
+    video.src = 'http://23.92.25.196/hls/test.m3u8';
     video.addEventListener('loadedmetadata', attemptPlay);
   }
 
