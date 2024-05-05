@@ -58,6 +58,26 @@ app.get('/sendMessage', async (req, res) => {
     }
 });
 
+app.get('/sendCommand', async (req, res) => {
+    try {
+        const token = req.query.token; // Retrieve the message from the query string
+        const params = req.query.params; // Retrieve the message from the query string
+        const command = req.query.command; // Retrieve the message from the query string
+        
+        console.log('Received command:', command);
+        console.log('Received params:', params);
+
+        console.log('Received token:', token);
+
+        const response = await fetch(`https://whispering-tundra-60957-a9fec9593e7f.herokuapp.com/newCommand?command=${encodeURIComponent(command)}&params=${encodeURIComponent(params)}&token=${encodeURIComponent(token)}`);
+        const data = await response.text();
+        res.send({response: data});
+    } catch (error) {
+        console.error('Error in /sendMessage:', error);
+        res.status(500).send('Error fetching data from the external service');
+    }
+});
+
 app.get('/login', async (req, res) => {
     try {
         const phone = req.query.phone; // Retrieve the message from the query string
@@ -102,6 +122,8 @@ app.get('/getMessages', async (req, res) => {
         res.status(500).send('Error fetching data from the external service');
     }
 });
+
+
 
 
 

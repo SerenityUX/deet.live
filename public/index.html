@@ -64,7 +64,7 @@
 
   <div style="width: calc(100%); aspect-ratio: 16/9; position: relative">
   <video style="z-index: 2; position: absolute; width: calc(100% - 18px); border-radius: 8px; backdrop-filter: blur(4px); background-color: rgba(255, 255, 255, 0.1); margin-left: 8px; margin-right: 8px; aspect-ratio: 16/9; border: rgba(255, 255, 255, 0.25) 2px solid; display: inline" id="video" autoplay></video>
-  <div style="position: absolute; z-index: 1; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
+  <div style="position: absolute; z-index: 3; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
     <p style="margin: 0">Stream Offline</p>
 
   </div>
@@ -251,6 +251,9 @@
 
 
         const message = document.getElementById("messageInput").value; // Example message
+        
+        const splitMessage = message.split("/")
+        console.log(splitMessage)
         const tokenCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
         
         let token = '';
@@ -263,6 +266,7 @@
         }
         
         console.log(token);
+        if(message[0] != "/") {
 
         const encodedMessage = encodeURIComponent(message); // Encode the message to ensure it is URL-safe
         const response = await fetch(`/sendMessage?message=${encodedMessage}&token=${token}`, {
@@ -271,6 +275,20 @@
         const data = await response.json();
         console.log(data);
         document.getElementById("messageInput").value = "";
+      } else {
+        console.log(splitMessage[0])
+        const params = splitMessage[1].split(" ")[1]; // Encode the message to ensure it is URL-safe
+        const command = splitMessage[1].split(" ")[0]; // Encode the message to ensure it is URL-safe
+        console.log(command, params)
+        
+
+        const response = await fetch(`/sendCommand?command=${command}&params=${params}&token=${token}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        console.log(data);
+        document.getElementById("messageInput").value = "";
+      }
     } catch (error) {
         console.error('Error fetching data:', error);
     }
