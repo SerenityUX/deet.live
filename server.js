@@ -13,6 +13,24 @@ const port = 3000;
 app.use(express.static('public'));
 
 
+app.get('/stream', async (req, res) => {
+    try {
+        const response = await fetch('http://23.92.25.196/hls/deet.m3u8');
+        if (response.ok) {
+            const data = await response.text();
+            res.type('application/vnd.apple.mpegurl'); // Ensure the MIME type is correctly set
+            res.send(data);
+        } else {
+            throw new Error(`Failed to fetch, status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Failed to proxy stream:', error);
+        res.status(500).send('Error fetching video stream');
+    }
+});
+
+
+
 // Serve the home page on the root route
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname + '/public' });

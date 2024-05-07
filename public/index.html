@@ -151,14 +151,14 @@
 
   if(Hls.isSupported()) {
     var hls = new Hls();
-    hls.loadSource('http://23.92.25.196/hls/deet.m3u8'); // Use the proxy endpoint
+    hls.loadSource('http://serenidad.app/hls/deet.m3u8'); // Use the proxy endpoint
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, function() {
       attemptPlay();
     });
   }
   else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = 'http://23.92.25.196/hls/deet.m3u8';
+    video.src = 'http://serenidad.app/hls/deet.m3u8';
     video.addEventListener('loadedmetadata', attemptPlay);
   }
 
