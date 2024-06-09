@@ -1,15 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <script type="text/javascript">
-        window.location.href = "https://twitter.com/DeetSchoe/status/1769620361199632769";
-    </script>
+  <link rel="icon" type="image/png" href="/public/favicon_io/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> <!-- This makes the status bar black with white text -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Deet Live</title>
+<link rel="icon" sizes="16x16" href="path/to/favicon-16x16.png">
+<link rel="icon" sizes="32x32" href="path/to/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="path/to/apple-touch-icon.png">
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* Use environment variables to include the safe area insets */
+    height: calc(100vh - env(safe-area-inset-bottom));
+    background-image: url("coolBackground.png");
+    background-size: cover;
+    color: #fff;
+  }
+</style>
 </head>
-<body>
-    <!-- You can add a message or loading spinner here if you want -->
-    <p>Redirecting to Twitter...</p>
+<body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0px">
+  <div id="popup" style="z-index: 5; position: absolute; display: none; background-color: rgba(0, 0, 0, 0.5); width: 100vw; height: calc(100vh - env(safe-area-inset-bottom));">
+    <div onclick='closePopup()' style="width: 100vw; height: calc(100vh - env(safe-area-inset-bottom)); display: flex;">
+      
+    </div>
+    <div style="color: #000; position: absolute; left: calc(50% - 100px); top: calc(50% - 100px); width: 200px; height: 200px; background-color: #fff; border: 1px solid #000">
+    
+    <div style="display: flex; flex-direction: row; justify-content: space-around;">
+    <p id="loginText" onclick="setLogin()" style="text-decoration: underline;">Login</p>
+    <p id="signupText" onclick="setSignup()">Signup</p>
+  
+  </div>
+  
+   <div id="usernameGroup" style="display: none; margin: 0; padding: 0">
+  <label>Username</label>
+  <input id="usernameInput"/>
+</div>
+  <label>Phone #</label>
+  <input id="phoneInput"/>
+  
+  <label>Password</label>
+  <input id="passwordInput"/>
+  <button onclick="signup()" style="display: none" id="signupButton">Signup</button>
+
+  <button onclick="login()" style="display: block" id="loginButton">Login</button>
+  </div>
+</div>
+  <div style="margin: 0; padding: 4px 8px; align-items: center; display: flex; flex-direction: row; justify-content: space-between;">
+  <p style="margin: 0; font-size: 24px; font-weight: 400">Serenidad</p>
+  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-direction: row;">
+    <div></div>
+    <!-- <div></div>
+    <div></div> -->
+
+    <!-- <a style="color: #fff; text-decoration: none;" href="https://twitter.com/BldgSerenidad"><p style="margin: 0">Explore Streams</p></a> -->
+    <p onclick="openPopup()" style="margin: 0; padding: 4px 16px; background-color: rgba(255, 255, 255, 0.1); border-radius: 16px; overflow: hidden;">Sign In</p>
+  </div>
+</div>
+
+  <div style="width: calc(100%); aspect-ratio: 16/9; position: relative">
+  <video style="z-index: 3; position: absolute; width: calc(100% - 18px); border-radius: 8px; backdrop-filter: blur(4px); background-color: rgba(255, 255, 255, 0.1); margin-left: 8px; margin-right: 8px; aspect-ratio: 16/9; border: rgba(255, 255, 255, 0.25) 2px solid; display: inline" id="video" autoplay></video>
+  <div style="position: absolute; z-index: 2; display: flex; width: calc(100% - 18px); height: 100%; justify-content: center; align-items: center; left: 0; top: 0; margin: 0"> 
+    <!-- <p style="margin: 0">Stream Offline</p> -->
+
+  </div>
+</div>
+
+<p style="margin-top: 0; line-height:  1; margin-bottom: 0; margin-left: 8px; margin-right: 8px; font-size: 38px; font-family: Fraunces; font-weight: 600">Deet Live Exploring Burlington VT</p>
+
+<div style="display: flex; justify-content: space-between; flex-direction: row; align-items: center; margin-left: 16px; margin-right: 16px">
+  <div style="gap: 8px; display: flex; flex-direction: row; align-items: center;">
+  <img src="deetImage.png" style="width: 32px; height: 32px; border-radius: 16px;"/>
+  <p style="margin-top: 8; margin-bottom: 8">Deet.live</p>
+</div>
+  <a href="https://twitter.com/DeetSchoe"><img src="TwitterIcon.png" style="width: 32px; height: 32px; border-radius: 16px;"/></a>
+
+</div>
+
+<div style="margin-left: 8px; border-radius: 8px; margin-right: 8px; background-color: rgba(255, 255, 255, 0.25); border: 2px solid rgba(255, 255, 255, 0.25); backdrop-filter: blur(4px);">
+<div style="background-color: rgba(255, 255, 255, 0.9); width: calc(100% - 20px); border-radius: 6px 6px 0px 0px; margin: 2px; padding: 8px;">
+  <p style="margin-top: 0; color: #000; margin-bottom: 0; font-family: Fraunces; font-weight: 500;">Interactions:</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; margin-top: 8px; margin-bottom: 8px; flex-direction: row; width: calc(100% - 16px); margin-left: 8px; margin-right: 8px; gap: 8px;">
+  <img onclick="fetchData()" src="SerenidadSurfers.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <!-- <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" />
+  <img src="Empty.png" style="width: calc(33.33% - 5.33px);" /> -->
+</div>
+
+
+<!-- <button onclick="fetchData()">surfers</button>
+<button disabled>blur my vision</button>
+<button disabled>jumpscare me</button>
+<button disabled>shock me</button> -->
+
+
+</div>
+<div>
+<div style="margin-left: 8px; padding-top: 1px; margin-top: 8px; border-radius: 8px; margin-right: 8px; background-color: rgba(255, 255, 255, 0.25);">
+
+
+<div style="background-color: rgba(255, 255, 255, 0.75); margin: 4px; color: #000; border-radius: 6px 6px 0px 0px; height: 100px; scrollbar-width: none; overflow: scroll; padding: 8px;" id="messages">
+
+</div>
+
+<div style="width: calc(100% - 8px); display: flex; margin-left: 4px; margin-right: 4px;">
+  <input placeholder="Send a message to Deet" id="messageInput" style="height: 34.5px; padding-top: 0px; padding-bottom: 0px; padding-left: 8px; padding-right: 8px; background-color: rgba(255, 255, 255, 0.9); outline: none; width: 100%; border: 0px; font-size: 16px; border-radius: 0px 0px 0px 6px; margin-bottom: 4px;"/>
+  <img onclick="sendMessage()" style="width: 32px; cursor: pointer; padding-left: 8px; background-color: rgba(255, 255, 255, 0.9); height: 26.5px; display: flex; align-items: center; justify-content: center; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; border-radius: 0px 6px 6px 0px;" src="maxSend.png"/>
+  
+  <!-- <button onclick="sendMessage()">Send</button> -->
+  </div>
+</div>
+
+</div>
+
+<!-- <p>
+  This was last week's stream:
+</p> -->
+
+<!-- 
+<div style="width: 300px; aspect-ratio: 16/9; position: relative">
+  <video src="https://cloud-q15kk69xc-hack-club-bot.vercel.app/0cdn.mp4" style="width: 300px; aspect-ratio: 16/9; border: #000 1px solid; display: inline" controls></video>
+</div>
+<p>
+  Check out
+  <a href="https://www.youtube.com/watch?v=PBqmPR7FE9Q&t=29s&pp=ygUSYnVpbGRpbmcgc2VyZW5pZGFk">full live stream here</a>
+
+</p>
+<p>Stream not working? email thomas:
+  <a href="mailto:thomas@serenidad.app">thomas@serenidad.app</a>
+  or
+  <a href="mailto:thomas@serenidad.app">dieter@serenidad.app</a>
+
+</p> -->
+<script>
+  var video = document.getElementById('video');
+  
+  // This function attempts to play the video and retries if it fails.
+  function attemptPlay() {
+    video.play().catch(() => {
+      setTimeout(attemptPlay, 1000); // Retry after 1 second if initial play fails
+    });
+  }
+
+  if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource('http://23.92.25.196/hls/deet.m3u8'); // Use the proxy endpoint
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      attemptPlay();
+    });
+  }
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'http://23.92.25.196/hls/deet.m3u8';
+    video.addEventListener('loadedmetadata', attemptPlay);
+  }
+
+  // Listen for the 'ended' event and play the video again if it reaches the end.
+  video.addEventListener('ended', () => {
+    video.play();
+  });
+  function openPopup() {
+    document.getElementById("popup").style.display = "flex"
+
+  }
+  function closePopup() {
+    document.getElementById("popup").style.display = "none"
+
+  }
+
+  async function login() {
+    var phone = encodeURIComponent(document.getElementById("phoneInput").value);
+    var password = encodeURIComponent(document.getElementById("passwordInput").value);
+
+    console.log(phone, password);
+    const response = await fetch(`/login?phone=${phone}&password=${password}`, {
+        method: 'GET'
+    });
+    const data = await response.json();
+    console.log(data);
+
+    // Check if the response contains a token and save it as a cookie
+    if (data.token) {
+        document.cookie = `token=${data.token}; path=/;`;  // Adjust the cookie attributes as needed
+        closePopup()
+      }
+}
+
+
+  async function signup() {
+
+    var username = encodeURIComponent(document.getElementById("usernameInput").value)
+    var phone = encodeURIComponent(document.getElementById("phoneInput").value)
+    var password = encodeURIComponent(document.getElementById("passwordInput").value)
+
+    console.log(username, phone, password)
+    const response = await fetch(`/signup?username=${username}&phone=${phone}&password=${password}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        console.log(data);
+
+            // Check if the response contains a token and save it as a cookie
+    if (data.token) {
+        document.cookie = `token=${data.token}; path=/;`;  // Adjust the cookie attributes as needed
+        closePopup()
+      }
+  }
+  function setSignup() {
+    document.getElementById("signupText").style.textDecoration = "underline"
+    document.getElementById("loginText").style.textDecoration = "none"
+
+    document.getElementById("signupButton").style.display = "block"
+    document.getElementById("loginButton").style.display = "none"
+
+    document.getElementById("usernameGroup").style.display = "block"
+
+
+  }
+
+  function setLogin() {
+    document.getElementById("loginText").style.textDecoration = "underline"
+    document.getElementById("signupText").style.textDecoration = "none"
+
+    document.getElementById("loginButton").style.display = "block"
+    document.getElementById("signupButton").style.display = "none"
+
+    document.getElementById("usernameGroup").style.display = "none"
+
+  }
+
+  async function fetchData() {
+    try {
+      const response = await fetch('/sendInteraction');
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  async function sendMessage() {
+    try {
+
+
+        const message = document.getElementById("messageInput").value; // Example message
+        
+        const splitMessage = message.split("/")
+        console.log(splitMessage)
+        const tokenCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
+        
+        let token = '';
+        if (tokenCookie) {
+            token = tokenCookie.split('=')[1]; // Extract just the token value
+        }
+
+        if(token == "") {
+          openPopup()
+        }
+        
+        console.log(token);
+        if(message[0] != "/") {
+
+        const encodedMessage = encodeURIComponent(message); // Encode the message to ensure it is URL-safe
+        const response = await fetch(`/sendMessage?message=${encodedMessage}&token=${token}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        console.log(data);
+        document.getElementById("messageInput").value = "";
+      } else {
+        console.log(splitMessage[0])
+        const params = splitMessage[1].split(" ")[1]; // Encode the message to ensure it is URL-safe
+        const command = splitMessage[1].split(" ")[0]; // Encode the message to ensure it is URL-safe
+        console.log(command, params)
+        
+
+        const response = await fetch(`/sendCommand?command=${command}&params=${params}&token=${token}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        alert(data.response);
+        document.getElementById("messageInput").value = "";
+      }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+
+
+
+
+
+// Function to fetch messages and update the div
+var lastData = null; // Cache the last fetched data to avoid unnecessary updates
+async function fetchMessages() {
+  try {
+    const response = await fetch('/getMessages');
+    const data = await response.json();
+    // Update the div only if there is new data
+    if (JSON.stringify(data).length !== JSON.stringify(lastData).length) {
+      lastData = data;
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = ''; // Clear previous messages
+      data.reverse();
+      data.forEach(msg => {
+        const title = document.createElement('p');
+        title.textContent = msg.sender;
+        title.style.fontWeight = 600;
+        title.style.margin = 0;
+
+        messagesDiv.appendChild(title);
+
+        const p = document.createElement('p');
+        p.textContent = msg.message;
+        p.style.margin = 0;
+
+        messagesDiv.appendChild(p);
+      });
+      // Scroll to the bottom of the messages div after updating it
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+  }
+}
+
+// Set up an interval to fetch messages every second
+setInterval(fetchMessages, 1000);
+
+
+function adjustHeight() {
+  const viewportHeight = window.innerHeight + "px";
+  document.body.style.height = viewportHeight;
+  document.getElementById("popup").style.height = viewportHeight;
+}
+
+// Run on load and on window resize
+window.addEventListener('load', adjustHeight);
+window.addEventListener('resize', adjustHeight);
+
+</script>
+
 </body>
 </html>
